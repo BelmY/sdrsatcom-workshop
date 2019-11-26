@@ -1,0 +1,78 @@
+name: limedvbrx
+base: core18
+version: 0.0.1
+summary: LimeSDR + leandvb + ffplay pipeline
+description: A minimal DVB receiver based on leandvb for LimeSDR hardware
+grade: devel
+confinement: devmode
+
+apps:
+    limedvbrx:
+        command: limedvbrx
+        plugs: [home]
+    ffplay:
+        command: ffplay
+        plugs: [home]
+    ts2es:
+        command: ts2es
+        plugs: [home]
+    leandvb:
+        command: leandvb
+        plugs: [home]
+    LimeStream:
+        command: LimeStream
+        plugs: [home, raw-usb]
+
+parts:
+    limesuite:
+        plugin: cmake
+        source: https://github.com/myriadrf/LimeSuite.git
+        source-tag: v19.04.0
+        configflags:
+            - -DENABLE_QUICKTEST=OFF
+            - -DENABLE_GUI=OFF
+            - -DENABLE_SOAPY_LMS7=OFF
+            - -DENABLE_EXAMPLES=OFF
+            - -DENABLE_UTILITIES=OFF
+            - -DENABLE_HEADERS=ON
+            - -DENABLE_SIMD_FLAGS=SSE3
+        build-packages:
+            - libusb-1.0-0-dev
+        stage-packages:
+            - libstdc++6
+            - libusb-1.0-0
+
+    lime-tools:
+        plugin: cmake
+        source: https://github.com/myriadrf/lime-tools.git
+        source-commit: 76c5aa76
+        after: [limesuite]
+        build-packages: 
+            - libfftw3-dev
+            - gnuplot
+        stage-packages:
+            - libfftw3-bin
+
+    leandvb:
+        plugin: make
+        source: http://github.com/pabr/leansdr.git
+        source-subdir: src/apps
+        artifacts: [leandvb]
+        organize:
+            leandvb: bin/
+
+    ts2es:
+        plugin: nil
+        stage-packages:
+            - tstools
+
+    ffplay:
+        plugin: nil
+        stage-packages:
+            - ffmpeg
+            - libslang2
+            - libglu1-mesa
+
+    limedvbrx:
+         plugin: dump
+         source: .
