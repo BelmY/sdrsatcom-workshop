@@ -12,13 +12,13 @@ apps:
         plugs: [home]
     ffplay:
         command: ffplay
-        plugs: [home]
+        plugs: [home, alsa, opengl, pulseaudio, x11, wayland]
     ts2es:
         command: ts2es
         plugs: [home]
     leandvb:
         command: leandvb
-        plugs: [home]
+        plugs: [home, opengl, x11, wayland]
     LimeStream:
         command: LimeStream
         plugs: [home, raw-usb]
@@ -38,6 +38,7 @@ parts:
             - -DENABLE_SIMD_FLAGS=SSE3
         build-packages:
             - libusb-1.0-0-dev
+            - pkg-config
         stage-packages:
             - libstdc++6
             - libusb-1.0-0
@@ -60,6 +61,8 @@ parts:
         artifacts: [leandvb]
         organize:
             leandvb: bin/
+        build-packages:
+            - libx11-dev
 
     ts2es:
         plugin: nil
@@ -72,6 +75,7 @@ parts:
             - ffmpeg
             - libslang2
             - libglu1-mesa
+            - libpulse0
 
     limedvbrx:
          plugin: dump
