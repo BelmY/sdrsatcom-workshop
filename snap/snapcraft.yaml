@@ -18,13 +18,13 @@ apps:
         environment:
             LIBGL_DRIVERS_PATH: $SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/dri
             LD_LIBRARY_PATH: $LD_LIBRARY_PATH:$SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/pulseaudio:$SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/mesa:$SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/mesa-egl:$LIBGL_DRIVERS_PATH:/var/lib/snapd/lib/gl
-        plugs: [home, x11, opengl, wayland, pulseaudio]
+        plugs: [home, x11, opengl, wayland, alsa, pulseaudio]
     ts2es:
         command: ts2es
         plugs: [home]
     leandvb:
         command: leandvb
-        plugs: [home, x11, opengl, wayland, pulseaudio]
+        plugs: [home, x11, opengl, wayland]
     LimeStream:
         command: LimeStream
         plugs: [home, raw-usb]

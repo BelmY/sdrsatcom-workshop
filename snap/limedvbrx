@@ -51,4 +51,4 @@ mkfifo $HOME/fifo.264
 LimeStream -s 500000 -f 437000000 -g 0.5 -r $HOME/leandvb.iq &
 leandvb --cr 3/4 --sr 250e3 --s16 -f 0.5e6 --gui <$HOME/leandvb.iq >$HOME/video.ts &
 ts2es -video $HOME/video.ts $HOME/fifo.264 &
-ffplay $HOME/fifo.264 -vf scale=640:-1
+ffplay -an $HOME/fifo.264 -vf scale=640:-1
