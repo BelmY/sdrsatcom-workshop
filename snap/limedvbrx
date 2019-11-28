@@ -13,7 +13,9 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#
+
+# If they exist remove old fifos and create new ones
+
 rm -f $HOME/leandvb.iq
 rm -f $HOME/video.ts
 rm -f $HOME/fifo.264

@@ -2,23 +2,29 @@ name: limedvbrx
 base: core18
 version: 0.0.1
 summary: LimeSDR + leandvb + ffplay pipeline
-description: A minimal DVB receiver based on leandvb for LimeSDR hardware
+description: A minimal leandvb based DVB receiver for LimeSDR hardware
 grade: devel
 confinement: devmode
 
 apps:
     limedvbrx:
         command: limedvbrx
+        environment:
+            LIBGL_DRIVERS_PATH: $SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/dri
+            LD_LIBRARY_PATH: $LD_LIBRARY_PATH:$SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/pulseaudio:$SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/mesa:$SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/mesa-egl:$LIBGL_DRIVERS_PATH:/var/lib/snapd/lib/gl
         plugs: [home]
     ffplay:
         command: ffplay
-        plugs: [home, alsa, opengl, pulseaudio, x11, wayland]
+        environment:
+            LIBGL_DRIVERS_PATH: $SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/dri
+            LD_LIBRARY_PATH: $LD_LIBRARY_PATH:$SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/pulseaudio:$SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/mesa:$SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/mesa-egl:$LIBGL_DRIVERS_PATH:/var/lib/snapd/lib/gl
+        plugs: [home, x11, opengl, wayland, pulseaudio]
     ts2es:
         command: ts2es
         plugs: [home]
     leandvb:
         command: leandvb
-        plugs: [home, opengl, x11, wayland]
+        plugs: [home, x11, opengl, wayland, pulseaudio]
     LimeStream:
         command: LimeStream
         plugs: [home, raw-usb]
@@ -61,21 +67,20 @@ parts:
         artifacts: [leandvb]
         organize:
             leandvb: bin/
-        build-packages:
-            - libx11-dev
 
     ts2es:
         plugin: nil
         stage-packages:
             - tstools
 
-    ffplay:
+    ffmpeg:
         plugin: nil
         stage-packages:
             - ffmpeg
             - libslang2
             - libglu1-mesa
-            - libpulse0
+            - libgl1-mesa-glx
+            - mesa-utils
 
     limedvbrx:
          plugin: dump
