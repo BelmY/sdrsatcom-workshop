@@ -2,25 +2,32 @@
 
 ## Building
 
-1. Install snapcraft
+### Install snapcraft
 
+```Shell
 $ sudo apt install snapcraft
+```
 
-2. Get the latest updates
+### Get the latest updates
 
+```Shell
 $ cd sdrsatcom-workshop
 
 $ git pull
+```
 
-3. Build the snap
+### Build the snap
 
+```Shell
 $ cd snap
 
 $ snapcraft
-
+```
 ## Installation
 
+```Shell
 $ sudo snap install --devmode limedvbrx_0.0.1_amd64.snap
+```
 
 Note that the "devmode" option is required since the snap is not signed and
 therefore we need to bypass container security. Since we do this, we also don't
@@ -31,7 +38,9 @@ it to the app store so that it can be easily installed by others.
 
 ## Running the example
 
+```Shell
 $ limedvbrx
+```
 
 Note that if you wanted to change any settings you would need to edit the
 "limedvbrx" script and rebuild the snap with "snapcraft clean" followed by
